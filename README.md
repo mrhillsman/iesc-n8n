@@ -1,6 +1,6 @@
 # n8n Workflow Automation using OpenShift GitOps
 
-This repository contains Kubernetes manifests for deploying [n8n](https://n8n.io/) workflow automation platform using OpenShift GitOps, with Redis for message queuing and PostgreSQL for persistent data storage.
+This repository contains OpenShift manifests for deploying [n8n](https://n8n.io/) workflow automation platform using OpenShift GitOps, with Redis for message queuing and PostgreSQL for persistent data storage.
 
 ## Overview
 
@@ -28,7 +28,7 @@ The deployment consists of three main components:
 │   ├── n8n.yaml                # n8n application
 │   ├── redis.yaml              # Redis application
 │   └── postgres.yaml           # PostgreSQL application
-├── manifests/                  # Kubernetes manifests
+├── manifests/                  # OpenShift manifests
 │   ├── n8n/                    # n8n deployment manifests
 │   ├── redis/                  # Redis deployment manifests
 │   └── postgres/               # PostgreSQL deployment manifests
