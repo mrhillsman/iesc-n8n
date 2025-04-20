@@ -1,10 +1,10 @@
-# n8n Workflow Automation on Kubernetes
+# n8n Workflow Automation using OpenShift GitOps
 
-This repository contains Kubernetes manifests for deploying [n8n](https://n8n.io/) workflow automation platform using ArgoCD, with Redis for message queuing and PostgreSQL for persistent data storage.
+This repository contains Kubernetes manifests for deploying [n8n](https://n8n.io/) workflow automation platform using OpenShift GitOps, with Redis for message queuing and PostgreSQL for persistent data storage.
 
 ## Overview
 
-n8n is a fair-code licensed workflow automation tool that allows you to connect different services and build automated workflows with a visual editor. This repository provides a GitOps approach to deploying n8n in a Kubernetes environment using ArgoCD.
+n8n is a fair-code licensed workflow automation tool that allows you to connect different services and build automated workflows with a visual editor. This repository provides a GitOps approach to deploying n8n in an OpenShift environment.
 
 ## Architecture
 
@@ -16,16 +16,15 @@ The deployment consists of three main components:
 
 ## Prerequisites
 
-- Kubernetes cluster
-- ArgoCD installed on your cluster
-- kubectl configured to communicate with your cluster
-- Helm (for initial ArgoCD setup if not already installed)
+- OpenShift cluster
+- OpenShift GitOps operator installed on your cluster
+- openshift client configured to communicate with your cluster
 
 ## Repository Structure
 
 ```bash
 .
-├── apps/                       # ArgoCD application definitions
+├── apps/                       # GitOps application definitions
 │   ├── n8n.yaml                # n8n application
 │   ├── redis.yaml              # Redis application
 │   └── postgres.yaml           # PostgreSQL application
@@ -42,8 +41,8 @@ The deployment consists of three main components:
 ### 1. Clone this repository
 
 ```bash
-git clone https://github.com/yourusername/n8n-argocd.git
-cd n8n-argocd
+git clone https://github.com/mrhillsman/iesc-n8n.git
+cd iesc-n8n
 ```
 
 ### 2. Update configuration (if needed)
@@ -52,13 +51,13 @@ Review and update the configuration in the manifest files according to your envi
 
 ### 3. Deploy using ArgoCD
 
-Apply the ArgoCD application definitions:
+Apply the GitOps application definitions:
 
 ```bash
-kubectl apply -f apps/
+oc apply -f apps/
 ```
 
-ArgoCD will automatically deploy all components in the correct order.
+OpenShift GitOps will automatically deploy all components in the correct order.
 
 ## Configuration
 
@@ -84,13 +83,13 @@ Configuration options can be adjusted in `manifests/redis/deployment.yaml`.
 The n8n deployment includes:
 - Configuration for PostgreSQL connection
 - Configuration for Redis as queue manager
-- Ingress for external access
+- Route for external access
 
 Configuration options can be adjusted in `manifests/n8n/deployment.yaml`.
 
 ## Customization
 
-You can customize the deployment by modifying the manifests in the respective folders. After pushing changes to the repository, ArgoCD will automatically sync the changes to your cluster.
+You can customize the deployment by modifying the manifests in the respective folders. After pushing changes to the repository, OpenShift GitOps will automatically sync the changes to your cluster.
 
 ## Scaling
 
@@ -102,7 +101,7 @@ For production environments, consider:
 ## Troubleshooting
 
 Common issues:
-- Check ArgoCD UI for sync status and errors
+- Check OpenShift GitOps UI for sync status and errors
 - Verify database connection from n8n pods
 - Ensure PVCs are properly created and bound
 
