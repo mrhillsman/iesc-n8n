@@ -1,0 +1,21 @@
+# apps/postgres.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n-postgres
+  namespace: openshift-gitops
+spec:
+  project: iesc-n8n
+  source:
+    repoURL: https://github.com/mrhillsman/iesc-n8n.git
+    targetRevision: HEAD
+    path: manifests/postgres
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iesc-n8n  # Using same namespace as n8n for simplicity
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

@@ -1,0 +1,5 @@
+# manifests/n8n/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iesc-n8n

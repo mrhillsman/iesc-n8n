@@ -1,0 +1,59 @@
+---
+# manifests/n8n/deployment-main.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n-main
+  namespace: n8n
+  labels:
+    app: n8n
+    component: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: n8n
+      component: main
+  template:
+    metadata:
+      labels:
+        app: n8n
+        component: main
+    spec:
+      containers:
+      - name: n8n
+        image: n8nio/n8n:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5678
+        envFrom:
+        - configMapRef:
+            name: n8n-config
+        - secretRef:
+            name: n8n-secrets
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "300m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: n8n-storage
+          mountPath: /home/node/.n8n
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5678
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5678
+          initialDelaySeconds: 60
+          periodSeconds: 10
+      volumes:
+      - name: n8n-storage
+        persistentVolumeClaim:
+          claimName: n8n-storage-pvc

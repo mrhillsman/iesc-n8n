@@ -1,0 +1,37 @@
+# Redis Deployment for OpenShift
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n-redis
+  labels:
+    app: n8n-redis
+spec:
+  replicas: 1  # Single Redis instance, modify for HA requirements
+  selector:
+    matchLabels:
+      app: n8n-redis
+  template:
+    metadata:
+      labels:
+        app: n8n-redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7  # Consider pinning to specific version
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: n8n-redis-pvc  # References PVC defined below

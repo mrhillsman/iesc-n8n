@@ -1,0 +1,15 @@
+---
+# manifests/n8n/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n
+  namespace: n8n
+spec:
+  selector:
+    app: n8n
+    component: main
+  ports:
+  - port: 80
+    targetPort: 5678
+  type: ClusterIP

@@ -1,0 +1,21 @@
+# apps/n8n.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: openshift-gitops
+spec:
+  project: iesc-n8n
+  source:
+    repoURL: https://github.com/mrhillsman/iesc-n8n.git  # Your Git repository URL
+    targetRevision: HEAD  # Or specify a branch/tag
+    path: manifests/n8n  # Path to n8n manifests in your repo
+  destination:
+    server: https://kubernetes.default.svc  # Internal OpenShift API server
+    namespace: iesc-n8n  # Target namespace for deployment
+  syncPolicy:
+    automated:
+      prune: true  # Remove resources that are no longer defined
+      selfHeal: true  # Reconcile if drift is detected
+    syncOptions:
+    - CreateNamespace=true  # Create namespace if it doesn't exist

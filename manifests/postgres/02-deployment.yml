@@ -1,0 +1,55 @@
+# PostgreSQL Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n-postgres
+  labels:
+    app: n8n-postgres
+spec:
+  replicas: 1  # Single postgres instance, adjust for HA setup
+  selector:
+    matchLabels:
+      app: n8n-postgres
+  template:
+    metadata:
+      labels:
+        app: n8n-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:17  # Specific version for stability
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: n8n-postgres-secret
+              key: pguser
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: n8n-postgres-secret
+              key: pgpass
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: n8n-postgres-secret
+              key: pgdb
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"  # Custom data directory
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: n8n-postgres-pvc

@@ -1,0 +1,28 @@
+---
+# manifests/n8n/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: n8n-config
+  namespace: iesc-n8n
+data:
+  GENERIC_TIMEZONE: "UTC"  # Set to your timezone
+  N8N_PROTOCOL: "https"
+  N8N_PORT: "5678"
+  N8N_HOST: "n8n.apps.gpu.osdu.opdev.io"  # Replace with your domain
+  WEBHOOK_TUNNEL_URL: "https://n8n.apps.gpu.osdu.opdev.io"  # Replace with your domain
+  
+  # Database configuration
+  DB_TYPE: "postgresdb"
+  DB_POSTGRESDB_HOST: "postgres"
+  DB_POSTGRESDB_PORT: "5432"
+  DB_POSTGRESDB_DATABASE: "n8n"
+  
+  # Queue mode configuration
+  EXECUTIONS_MODE: "queue"
+  QUEUE_BULL_REDIS_HOST: "redis"
+  QUEUE_BULL_REDIS_PORT: "6379"
+  QUEUE_HEALTH_CHECK_ACTIVE: "true"
+  
+  # Multi-main setup (if you're running multiple main instances)
+  N8N_MULTI_MAIN_SETUP_ENABLED: "true"

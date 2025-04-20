@@ -1,0 +1,13 @@
+---
+# manifests/n8n/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: n8n-storage-pvc
+  namespace: iesc-n8n
+spec:
+  accessModes:
+    - ReadWriteMany  # Use ReadWriteMany since multiple pods need access
+  resources:
+    requests:
+      storage: 20Gi
